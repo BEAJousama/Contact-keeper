@@ -41,6 +41,7 @@ router.post(
 	async (req, res) => {
 		const errors = validationResult(req);
 		if (!errors.isEmpty()) {
+			
 			return res.status(400).json({ errors: errors.array() });
 		}
 
@@ -56,7 +57,6 @@ router.post(
 			});
 
 			const contact = await newContact.save();
-
 			res.json(contact);
 		} catch (err) {
 			console.error(err.message);
