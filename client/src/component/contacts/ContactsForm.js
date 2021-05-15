@@ -28,7 +28,7 @@ const clearall = () => {
         email:'',
         phone : '',
         type : 'personal',
-        id:''
+        _id:''
     })
 }
 const onSubmit = e =>{
@@ -47,6 +47,7 @@ const onSubmit = e =>{
             <h2 className="text-primary">{current === null ? "Add Contact" : "edit contact"}</h2>
             <Form.Group controlId="formBasicEmail">
             <Form.Control
+                required
                 type="text"
                 placeholder="name"
                 name="name"
@@ -56,6 +57,7 @@ const onSubmit = e =>{
                 </Form.Group>
                 <Form.Group controlId="formBasicEmail">
                 <Form.Control
+                required
                 type="text"
                 placeholder="email"
                 name="email"

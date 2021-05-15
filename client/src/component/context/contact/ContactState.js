@@ -35,23 +35,36 @@ import { GET_CONTACTS ,
      const [state,dispatch]=useReducer(contactReducer,initialState);
      //Add contacts
 
-     const addContact =  contact => {
-          // const config = {
-          //   headers:{
-          //     "Content-Type" : "application/json"
-          //   }
-          // }
-          // try {
-            // const res = await axios.post("/api/contacts", contact , config)
-            contact.id = nanoid();
-            dispatch ({type : ADD_CONTACT, payload : contact });
-          // } catch (error) {
-          //   console.log(error)
-          // }
+     const addContact = async  contact => {
+          const config = {
+            headers:{
+              "Content-Type" : "application/json"
+            }
+          }
+          try {
+            const res = await axios.post("/api/contacts", contact , config)
+            dispatch ({type : ADD_CONTACT, payload : res.data });
+          } catch (error) {
+            console.log(error)
+          }
      }
+     //get contact
+const getContacts=async ()=>{
+  const res = await axios.get("/api/contacts")
+  try {
+  dispatch ({type : GET_CONTACTS, payload : res.data });
+
+} catch (error) {
+  console.log(error)
+}
+
+
+}
+
 
      //delete contacts
-     const deleteContact = (id) =>{
+     const deleteContact = async (id) =>{
+      const res = await axios.delete(`/api/contacts/${id}`)
         dispatch({type:DELETE_CONTACT , payload: id})
         clearcurrent();
      }
@@ -64,9 +77,14 @@ import { GET_CONTACTS ,
       dispatch({type:CLEAR_CURRENT});
     }
      //update current contacts
-    const editContact = (current) => {
-      dispatch({type:UPDATE_CONTACT, payload : current});
-      setcurrent(null);
+    const editContact =async (current) => {
+      const config = {
+        headers:{
+          "Content-Type" : "application/json"
+        }}
+      
+      const res = await axios.put(`/api/contacts/${current._id}`,current,config)
+      dispatch({type:UPDATE_CONTACT, payload : res.data});
     }
      //filter current contacts
     const filterContact = (text)=>{
@@ -91,7 +109,8 @@ import { GET_CONTACTS ,
        clearcurrent,
        editContact,
        filterContact,
-       filterClear
+       filterClear,
+       getContacts
     
     }}
      >
